@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axiosI from '../api/index'
+import { CHARACTERS_PAGE } from '../api/route'
 
 Vue.use(Vuex)
 
@@ -10,8 +11,14 @@ const store = new Vuex.Store({
     },
     getters: {
         getCharacters(state) {
-            return state.characters
-        }
+
+            return state.characters.map(item => {
+                let episodethree = item.episode.slice(0, 3)
+                let stateItem = item
+                stateItem.episode = episodethree
+                return stateItem
+            })
+        },
     },
     mutations: {
         setCharacters(state, payload) {
@@ -19,11 +26,11 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        loadCharacters({ commit }, payload) {
+        loadCharacters({ commit }, page) {
             return axiosI
-                .get('https://rickandmortyapi.com/api/character')
+                .get(CHARACTERS_PAGE(page))
                 .then(characters => {
-                    console.log(characters.data.results)
+                    // console.log(characters)
                     commit('setCharacters', characters.data.results)
                 })
                 .catch(error => {

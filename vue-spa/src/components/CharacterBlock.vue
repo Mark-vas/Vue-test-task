@@ -1,13 +1,19 @@
 <template>
-  <div class="character">
+  <div class="character-block">
     <div>
-      <img :src="character.image" alt="" />
+      <img class="character-image" :src="character.image" alt="" />
     </div>
-    <div>
+    <div class="character-info">
       <h3>{{ character.name }}</h3>
-      <p>{{ character.species }}</p>
-      <p>{{ character.status }}</p>
-      <!-- <p>{{ character.location.name }}</p> -->
+      <p>Вид: {{ character.species }}</p>
+      <p>Статус: {{ character.status }}</p>
+      <p>Местоположение: {{ character.location.name }}</p>
+      <div>
+        Эпизоды:
+        <li v-for="(episode, index) in character.episode" :key="index">
+          {{ episode }}
+        </li>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +26,13 @@ export default {
 </script>
 
 <style>
-img {
-  width: 150px;
+.character-block {
+  display: flex;
+}
+.character-image {
+  width: 200px;
+}
+.character-info {
+  margin-left: 10px;
 }
 </style>
