@@ -45,10 +45,10 @@ export default {
   },
   computed: {
     allCharacters() {
-      return this.$store.getters.getCharacters;
+      return this.$store.getters.getAllCharacters;
     },
     allInfo() {
-      return this.$store.getters.getInfo;
+      return this.$store.getters.getInfoCharacters;
     },
   },
   methods: {
@@ -67,7 +67,7 @@ export default {
   watch: {
     currentPage: {
       handler(page) {
-        this.$store.dispatch("loadCharacters", page);
+        this.$store.dispatch("loadAllCharacters", page);
       },
       immediate: true,
     },
