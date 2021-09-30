@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        characters: []
+        characters: [],
+        info: []
     },
     getters: {
         getCharacters(state) {
@@ -19,10 +20,16 @@ const store = new Vuex.Store({
                 return stateItem
             })
         },
+        getInfo(state) {
+            return state.info.pages
+        }
     },
     mutations: {
         setCharacters(state, payload) {
             state.characters = payload
+        },
+        setInfo(state, payload) {
+            state.info = payload
         }
     },
     actions: {
@@ -30,8 +37,9 @@ const store = new Vuex.Store({
             return axiosI
                 .get(CHARACTERS_PAGE(page))
                 .then(characters => {
-                    // console.log(characters)
+                    console.log(characters)
                     commit('setCharacters', characters.data.results)
+                    commit('setInfo', characters.data.info)
                 })
                 .catch(error => {
                     console.log('error');

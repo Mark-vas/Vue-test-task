@@ -1,20 +1,32 @@
 <template>
   <div class="character">
     <h1>Все персонажи сериала "Рик и Морти"</h1>
+    <div class="button-navigation">
+      <button @click="clickButtonBack" type="button" :v-model="currentPage">
+        BACK
+      </button>
+      <button
+        @click="clickNumberButton"
+        v-for="page in allInfo"
+        :key="page"
+        type="button"
+        :v-model="currentPage"
+      >
+        {{ page }}
+      </button>
+      <button @click="clickButtonNext" type="button" :v-model="currentPage">
+        NEXT
+      </button>
+    </div>
+    <div>
+      <p>Текущая страница: {{ currentPage }}</p>
+    </div>
     <div class="character-list">
       <character-block
         v-for="character in allCharacters"
         :key="character.id"
         :character="character"
       />
-    </div>
-    <div>
-      <button @click="clickButtonBack" type="button" :v-model="currentPage">
-        BACK
-      </button>
-      <button @click="clickButtonNext" type="button" :v-model="currentPage">
-        NEXT
-      </button>
     </div>
   </div>
 </template>
@@ -31,24 +43,33 @@ export default {
       currentPage: 1,
     };
   },
-  created() {
-    this.$store.dispatch("loadCharacters", this.currentPage);
-  },
   computed: {
     allCharacters() {
       return this.$store.getters.getCharacters;
+    },
+    allInfo() {
+      return this.$store.getters.getInfo;
     },
   },
   methods: {
     clickButtonBack() {
       if (this.currentPage == 1) {
       } else this.currentPage--;
-      console.log(this.currentPage);
     },
     clickButtonNext() {
       if (this.currentPage == 34) {
       } else this.currentPage++;
-      console.log(this.currentPage);
+    },
+    clickNumberButton(page) {
+      this.currentPage = page.currentTarget.innerText;
+    },
+  },
+  watch: {
+    currentPage: {
+      handler(page) {
+        this.$store.dispatch("loadCharacters", page);
+      },
+      immediate: true,
     },
   },
 };
@@ -62,8 +83,12 @@ export default {
 .character-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 10px;
 }
 h1 {
+  text-align: center;
+}
+.button-navigation {
   text-align: center;
 }
 </style>
