@@ -1,18 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axiosI from '../api/index'
-import { CHARACTERS_PAGE } from '../api/route'
+import { CHARACTERS_PAGE, CHARACTER_ID } from '../api/route'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
         characters: [],
-        info: []
+        info: [],
+        oneCharacter: [],
     },
     getters: {
         getCharacters(state) {
-
             return state.characters.map(item => {
                 let episodethree = item.episode.slice(0, 3)
                 let stateItem = item
@@ -22,6 +22,9 @@ const store = new Vuex.Store({
         },
         getInfo(state) {
             return state.info.pages
+        },
+        getOneCharacter(state) {
+            return state.oneCharacter
         }
     },
     mutations: {
@@ -30,6 +33,9 @@ const store = new Vuex.Store({
         },
         setInfo(state, payload) {
             state.info = payload
+        },
+        setOneCharacter(state, payload) {
+            state.oneCharacter = payload
         }
     },
     actions: {
@@ -37,7 +43,6 @@ const store = new Vuex.Store({
             return axiosI
                 .get(CHARACTERS_PAGE(page))
                 .then(characters => {
-                    console.log(characters)
                     commit('setCharacters', characters.data.results)
                     commit('setInfo', characters.data.info)
                 })
@@ -46,6 +51,20 @@ const store = new Vuex.Store({
                     console.log(error);
                 })
         },
+        loadOneCharacter({ commit }, id) {
+            return axiosI
+                .get(CHARACTER_ID(id))
+                .then(oneCharacter => {
+                    commit('setOneCharacter', oneCharacter.data)
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.log(error);
+                })
+        },
+        loadAllEpisodes({ }) {
+
+        }
     },
 })
 

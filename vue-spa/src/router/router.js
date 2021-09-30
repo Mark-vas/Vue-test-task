@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import RickMortyList from '../views/RickMortyList.vue'
-import RickMortyCharacter from '../views/RickMortyCharacter.vue'
-import RickMortyEpisode from '../views/RickMortyEpisode.vue'
+import OneCharacter from '../views/OneCharacter.vue'
+import RickMortyEpisodes from '../views/RickMortyEpisodes.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -12,14 +12,14 @@ const routes = [
         component: RickMortyList
     },
     {
-        path: '/character',
-        name: 'RickMortyCharacter',
-        component: RickMortyCharacter
+        path: '/character/:id',
+        name: 'OneCharacter',
+        component: OneCharacter
     },
     {
         path: '/episode',
         name: 'RickMortyEpisode',
-        component: RickMortyEpisode
+        component: RickMortyEpisodes
     }
 ]
 
