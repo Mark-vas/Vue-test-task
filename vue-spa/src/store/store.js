@@ -14,11 +14,12 @@ const store = new Vuex.Store({
         episodes: [],
         infoEpisodes: [],
         imageCharacter: [],
-        oneEpisode: []
+        oneEpisode: [],
+        filterCharacters: [],
     },
     getters: {
         getAllCharacters(state) {
-            return state.characters.map(item => {
+            return state.filterCharacters.map(item => {
                 let episodethree = item.episode.slice(0, 3)
                 let stateItem = item
                 stateItem.episode = episodethree
@@ -39,11 +40,15 @@ const store = new Vuex.Store({
         },
         getOneEpisode(state) {
             return state.oneEpisode
-        }
+        },
+        getFilterCharacters(state) {
+            return state.filterCharacters
+        },
     },
     mutations: {
         setAllCharacters(state, payload) {
             state.characters = payload
+            state.filterCharacters = state.characters
         },
         setInfoCharacters(state, payload) {
             state.infoCharacters = payload
@@ -59,7 +64,10 @@ const store = new Vuex.Store({
         },
         setOneEpisode(state, payload) {
             state.oneEpisode = payload
-        }
+        },
+        setFilterCharacters(state, payload) {
+            state.filterCharacters = payload
+        },
     },
     actions: {
         loadAllCharacters({ commit }, page) {
@@ -118,6 +126,14 @@ const store = new Vuex.Store({
                     console.log('error');
                     console.log(error);
                 })
+        },
+        loadFilterCharakters({ commit, state }, value) {
+            debugger
+            const regexp = new RegExp(value, 'i')
+            let newFilterCharacters = state.filterCharacters.filter(fcharacter => regexp.test(fcharacter.name))
+            // fcharacter.name == value)
+            console.log(newFilterCharacters)
+            commit('setFilterCharacters', newFilterCharacters)
         }
     },
 })

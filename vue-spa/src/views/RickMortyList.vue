@@ -24,6 +24,13 @@
     <div>
       <button @click="showAllEpisodes">Все эпизоды</button>
     </div>
+    <div class="searchCharacter">
+      <input
+        v-model="searchValue"
+        @change="searchCharacter(searchValue)"
+        type="text"
+      />
+    </div>
     <div class="character-list">
       <character-block
         v-for="character in allCharacters"
@@ -43,7 +50,8 @@ export default {
   },
   data() {
     return {
-      currentPage: "",
+      searchValue: "",
+      currentPage: 1,
     };
   },
   computed: {
@@ -55,6 +63,10 @@ export default {
     },
   },
   methods: {
+    searchCharacter(value) {
+      this.$store.dispatch("loadFilterCharakters", value);
+      this.searchValue = "";
+    },
     showAllEpisodes() {
       this.$router.push({ name: "RickMortyEpisode" });
     },
@@ -67,14 +79,12 @@ export default {
       } else this.currentPage++;
     },
     clickNumberButton(page) {
-      debugger;
       this.currentPage = page.currentTarget.innerText;
     },
   },
   watch: {
     currentPage: {
       handler(page) {
-        debugger;
         this.$store.dispatch("loadAllCharacters", page);
       },
       immediate: true,
@@ -98,5 +108,8 @@ h1 {
 }
 .button-navigation {
   text-align: center;
+}
+.searchCharacter {
+  margin-top: 10px;
 }
 </style>
