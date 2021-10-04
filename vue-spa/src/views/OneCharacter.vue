@@ -37,15 +37,6 @@ export default {
       this.$router.push({ name: "RickMortyList" });
     },
   },
-
-  // debugger;
-  // const oneCharacter = CharacterBlock.find(
-  //   (character) => character.id == this.$route.params
-  // );
-  // if (oneCharacter) {
-  //   this.oneCharacter = character;
-  // }
-  // },
   created() {
     return this.$store.dispatch("loadOneCharacter", this.$route.params.id);
   },

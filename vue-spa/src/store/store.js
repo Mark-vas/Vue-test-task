@@ -1,15 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axiosI from '../api/index'
-import { CHARACTERS_PAGE, CHARACTER_ID, EPISODE_PAGE } from '../api/route'
+import { CHARACTERS_PAGE, CHARACTER_ID, EPISODE_PAGE, EPISODE_ID } from '../api/route'
+import axios from "axios";
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
         characters: [],
-        info: [],
+        infoCharacters: [],
         oneCharacter: [],
+        episodes: [],
+        infoEpisodes: [],
+        imageCharacter: [],
+        oneEpisode: []
     },
     getters: {
         getAllCharacters(state) {
@@ -21,10 +26,19 @@ const store = new Vuex.Store({
             })
         },
         getInfoCharacters(state) {
-            return state.info.pages
+            return state.infoCharacters.pages
         },
         getOneCharacter(state) {
             return state.oneCharacter
+        },
+        getAllEpisodes(state) {
+            return state.episodes
+        },
+        getInfoEpisodes(state) {
+            return state.infoEpisodes.pages
+        },
+        getOneEpisode(state) {
+            return state.oneEpisode
         }
     },
     mutations: {
@@ -32,10 +46,19 @@ const store = new Vuex.Store({
             state.characters = payload
         },
         setInfoCharacters(state, payload) {
-            state.info = payload
+            state.infoCharacters = payload
         },
         setOneCharacter(state, payload) {
             state.oneCharacter = payload
+        },
+        setAllEpisodes(state, payload) {
+            state.episodes = payload
+        },
+        setInfoEpisodes(state, payload) {
+            state.infoEpisodes = payload
+        },
+        setOneEpisode(state, payload) {
+            state.oneEpisode = payload
         }
     },
     actions: {
@@ -67,7 +90,29 @@ const store = new Vuex.Store({
                 .get(EPISODE_PAGE(page))
                 .then(episodes => {
                     commit('setAllEpisodes', episodes.data.results)
-                    commit()
+                    commit('setInfoEpisodes', episodes.data.info)
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.log(error);
+                })
+        },
+        loadImageCharacter({ commit }, image) {
+            return axios
+                .get(image)
+                .then(i => {
+                    return i.data.image
+                })
+                .catch(error => {
+                    console.log('error');
+                    console.log(error);
+                })
+        },
+        loadOneEpisode({ commit }, number) {
+            return axiosI
+                .get(EPISODE_ID(number))
+                .then(oneEpisode => {
+                    commit('setOneEpisode', oneEpisode.data)
                 })
                 .catch(error => {
                     console.log('error');

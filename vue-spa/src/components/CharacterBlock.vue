@@ -10,7 +10,11 @@
       <p>Местоположение: {{ character.location.name }}</p>
       <div>
         Эпизоды:
-        <li v-for="(episode, index) in character.episode" :key="index">
+        <li
+          @click="oneEpisode"
+          v-for="(episode, index) in character.episode"
+          :key="index"
+        >
           {{ episode }}
         </li>
       </div>
@@ -23,6 +27,14 @@ export default {
   name: "character-block",
   props: { character: {} },
   methods: {
+    oneEpisode(event) {
+      let str = event.currentTarget.innerText;
+      let num = str.split("https://rickandmortyapi.com/api/episode/").join("");
+      this.$router.push({
+        name: "OneEpisodeBlock",
+        params: { number: num },
+      });
+    },
     oneCharacter() {
       this.$router.push({
         name: "OneCharacter",

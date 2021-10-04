@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import RickMortyList from '../views/RickMortyList.vue'
 import OneCharacter from '../views/OneCharacter.vue'
 import RickMortyEpisodes from '../views/RickMortyEpisodes.vue'
+import OneEpisodeBlock from '../views/OneEpisodeBlock.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -20,7 +21,12 @@ const routes = [
         path: '/episode',
         name: 'RickMortyEpisode',
         component: RickMortyEpisodes
-    }
+    },
+    {
+        path: '/episode/:number',
+        name: 'OneEpisodeBlock',
+        component: OneEpisodeBlock
+    },
 ]
 
 const router = new VueRouter({

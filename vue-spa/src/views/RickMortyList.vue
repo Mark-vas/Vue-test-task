@@ -21,6 +21,9 @@
     <div>
       <p>Текущая страница: {{ currentPage }}</p>
     </div>
+    <div>
+      <button @click="showAllEpisodes">Все эпизоды</button>
+    </div>
     <div class="character-list">
       <character-block
         v-for="character in allCharacters"
@@ -52,6 +55,9 @@ export default {
     },
   },
   methods: {
+    showAllEpisodes() {
+      this.$router.push({ name: "RickMortyEpisode" });
+    },
     clickButtonBack() {
       if (this.currentPage == 1) {
       } else this.currentPage--;
