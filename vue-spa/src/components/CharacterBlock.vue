@@ -32,7 +32,7 @@ export default {
       let num = str.split("https://rickandmortyapi.com/api/episode/").join("");
       this.$router.push({
         name: "OneEpisodeBlock",
-        params: { number: num },
+        params: { id: num },
       });
     },
     oneCharacter() {

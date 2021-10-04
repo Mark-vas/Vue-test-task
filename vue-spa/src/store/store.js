@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         characters: [],
-        infoCharacters: [],
+        infoCharacters: '',
         oneCharacter: [],
         episodes: [],
         infoEpisodes: [],
@@ -108,9 +108,9 @@ const store = new Vuex.Store({
                     console.log(error);
                 })
         },
-        loadOneEpisode({ commit }, number) {
+        loadOneEpisode({ commit }, id) {
             return axiosI
-                .get(EPISODE_ID(number))
+                .get(EPISODE_ID(id))
                 .then(oneEpisode => {
                     commit('setOneEpisode', oneEpisode.data)
                 })

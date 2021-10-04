@@ -17,7 +17,11 @@
     </div>
     <div>
       Эпизоды:
-      <li v-for="(episode, index) in getOneCharacter.episode" :key="index">
+      <li
+        @click="oneEpisode"
+        v-for="(episode, index) in getOneCharacter.episode"
+        :key="index"
+      >
         {{ episode }}
       </li>
     </div>
@@ -35,6 +39,15 @@ export default {
   methods: {
     goBack() {
       this.$router.push({ name: "RickMortyList" });
+    },
+    oneEpisode(event) {
+      debugger;
+      let str = event.currentTarget.innerText;
+      let num = str.split("https://rickandmortyapi.com/api/episode/").join("");
+      this.$router.push({
+        name: "OneEpisodeBlock",
+        params: { id: num },
+      });
     },
   },
   created() {

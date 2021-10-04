@@ -19,11 +19,6 @@ export default {
   components: {
     EpisodeCharacterImage,
   },
-  data() {
-    return {
-      img: "",
-    };
-  },
 };
 </script>
 

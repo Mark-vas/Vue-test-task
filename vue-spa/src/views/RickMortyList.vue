@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
+      currentPage: "",
     };
   },
   computed: {
@@ -67,12 +67,14 @@ export default {
       } else this.currentPage++;
     },
     clickNumberButton(page) {
+      debugger;
       this.currentPage = page.currentTarget.innerText;
     },
   },
   watch: {
     currentPage: {
       handler(page) {
+        debugger;
         this.$store.dispatch("loadAllCharacters", page);
       },
       immediate: true,

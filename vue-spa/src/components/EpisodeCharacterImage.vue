@@ -1,6 +1,6 @@
 <template>
   <div class="episode-character-block">
-    <img :src="img" alt="" />
+    <img @click="clickImg" :id="id" :src="img" alt="" />
   </div>
 </template>
 <script>
@@ -11,12 +11,23 @@ export default {
   data() {
     return {
       img: "",
+      id: "",
     };
   },
   mounted() {
-    axios
-      .get(`${this.episodeImage}`)
-      .then((res) => (this.img = res.data.image));
+    axios.get(`${this.episodeImage}`).then((res) => {
+      this.img = res.data.image;
+      this.id = res.data.id;
+    });
+  },
+  methods: {
+    clickImg(event) {
+      let id = event.currentTarget.id;
+      this.$router.push({
+        name: "OneCharacter",
+        params: { id: id },
+      });
+    },
   },
 };
 </script>

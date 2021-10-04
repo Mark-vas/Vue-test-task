@@ -23,7 +23,7 @@ const routes = [
         component: RickMortyEpisodes
     },
     {
-        path: '/episode/:number',
+        path: '/episode/:id',
         name: 'OneEpisodeBlock',
         component: OneEpisodeBlock
     },
