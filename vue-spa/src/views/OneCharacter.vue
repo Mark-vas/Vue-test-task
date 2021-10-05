@@ -41,7 +41,6 @@ export default {
       this.$router.push({ name: "RickMortyList" });
     },
     oneEpisode(event) {
-      debugger;
       let str = event.currentTarget.innerText;
       let num = str.split("https://rickandmortyapi.com/api/episode/").join("");
       this.$router.push({

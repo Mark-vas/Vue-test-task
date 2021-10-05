@@ -11,11 +11,6 @@
         <p>Список персонажей:</p>
         <div class="character-block-image">
           <li v-for="(image, index) in getOneEpisode.characters" :key="index">
-            <!-- <li
-            @click="allCharacter"
-            v-for="(image, index) in getOneEpisode.characters"
-            :key="index"
-          > -->
             <episode-character-image :episodeImage="image" />
           </li>
         </div>

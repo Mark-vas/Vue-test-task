@@ -15,11 +15,15 @@ const store = new Vuex.Store({
         infoEpisodes: [],
         imageCharacter: [],
         oneEpisode: [],
+        searchCharacters: [],
         filterCharacters: [],
+        resultsCharacters: [],
+        resetFilterSearch: [],
+        filterChacked: false,
     },
     getters: {
         getAllCharacters(state) {
-            return state.filterCharacters.map(item => {
+            return state.resultsCharacters.map(item => {
                 let episodethree = item.episode.slice(0, 3)
                 let stateItem = item
                 stateItem.episode = episodethree
@@ -41,14 +45,12 @@ const store = new Vuex.Store({
         getOneEpisode(state) {
             return state.oneEpisode
         },
-        getFilterCharacters(state) {
-            return state.filterCharacters
-        },
     },
     mutations: {
         setAllCharacters(state, payload) {
             state.characters = payload
-            state.filterCharacters = state.characters
+            state.resultsCharacters = state.characters
+            state.searchCharacters = state.characters
         },
         setInfoCharacters(state, payload) {
             state.infoCharacters = payload
@@ -65,9 +67,20 @@ const store = new Vuex.Store({
         setOneEpisode(state, payload) {
             state.oneEpisode = payload
         },
+        setSearchCharacters(state, payload) {
+            state.resultsCharacters = payload
+            state.searchCharacters = payload
+        },
+        setSearchCharactersWithoutFilter(state, payload) {
+            state.resultsCharacters = payload
+        },
         setFilterCharacters(state, payload) {
             state.filterCharacters = payload
+            state.resultsCharacters = payload
         },
+        setRFilterSearch(state, payload) {
+            state.resultsCharacters = payload.characters
+        }
     },
     actions: {
         loadAllCharacters({ commit }, page) {
@@ -127,13 +140,26 @@ const store = new Vuex.Store({
                     console.log(error);
                 })
         },
-        loadFilterCharakters({ commit, state }, value) {
-            debugger
+        loadSearchCharakters({ commit, state }, value) {
             const regexp = new RegExp(value, 'i')
-            let newFilterCharacters = state.filterCharacters.filter(fcharacter => regexp.test(fcharacter.name))
-            // fcharacter.name == value)
-            console.log(newFilterCharacters)
-            commit('setFilterCharacters', newFilterCharacters)
+            let newSearchCharacters
+            if (state.filterChacked) {
+                newSearchCharacters = state.filterCharacters.filter(sCharacter => regexp.test(sCharacter.name))
+                commit('setSearchCharactersWithoutFilter', newSearchCharacters)
+            } else {
+                newSearchCharacters = state.characters.filter(sCharacter => regexp.test(sCharacter.name))
+                commit('setSearchCharacters', newSearchCharacters)
+            }
+
+        },
+        loadFilterStatus({ commit, state }, status) {
+            let newFilterCharacter = state.searchCharacters.filter(fCharacter => fCharacter.status == status)
+            state.filterChacked = true
+            commit('setFilterCharacters', newFilterCharacter)
+        },
+        resetFilterSearch({ commit, state }) {
+            state.filterChacked = false
+            commit('setRFilterSearch', state)
         }
     },
 })

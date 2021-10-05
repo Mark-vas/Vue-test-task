@@ -25,11 +25,29 @@
       <button @click="showAllEpisodes">Все эпизоды</button>
     </div>
     <div class="searchCharacter">
-      <input
-        v-model="searchValue"
-        @change="searchCharacter(searchValue)"
-        type="text"
-      />
+      <p>
+        Введите имя персонажа
+        <input
+          v-model="searchValue"
+          @change="searchCharacter(searchValue)"
+          type="text"
+        />
+      </p>
+      <p>
+        Фильтр по статусу персонажа
+        <select
+          v-model="statusValue"
+          @change="selectStatus(statusValue)"
+          name="select"
+        >
+          <option>Alive</option>
+          <option>Dead</option>
+          <option>unknown</option>
+        </select>
+      </p>
+      <div>
+        <button @click="resetFS">Сбросить фильтр и поиск</button>
+      </div>
     </div>
     <div class="character-list">
       <character-block
@@ -50,6 +68,7 @@ export default {
   },
   data() {
     return {
+      statusValue: "",
       searchValue: "",
       currentPage: 1,
     };
@@ -63,9 +82,16 @@ export default {
     },
   },
   methods: {
-    searchCharacter(value) {
-      this.$store.dispatch("loadFilterCharakters", value);
+    resetFS() {
       this.searchValue = "";
+      this.statusValue = "";
+      this.$store.dispatch("resetFilterSearch");
+    },
+    selectStatus(statusValue) {
+      this.$store.dispatch("loadFilterStatus", statusValue);
+    },
+    searchCharacter(value) {
+      this.$store.dispatch("loadSearchCharakters", value);
     },
     showAllEpisodes() {
       this.$router.push({ name: "RickMortyEpisode" });
